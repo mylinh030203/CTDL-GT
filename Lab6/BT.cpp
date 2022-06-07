@@ -184,7 +184,6 @@ int Level(Tnode root){
 int main()
 {
     Tnode root = NULL;
-    Tnode p = Search(root, 7);
     root = inserNode(root, 10);
     root = inserNode(root, 7);
     root = inserNode(root, 11);
