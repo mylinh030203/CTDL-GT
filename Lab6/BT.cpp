@@ -137,31 +137,41 @@ int CountInternal(Tnode root)
 {
     return CountNode(root) - Countleft(root);
 }
-void deleteNode(Tnode *root) {
-    if ((*root)->Left == NULL && (*root)->Right == NULL) {
-            delete root;
-    } else{
-        if((*root)->Left==NULL ){
-            Tnode p = *root;
-            (*root)=(*root)->Right;
-            delete p;
-        }else if((*root)->Right == NULL){
-            Tnode p = *root;
-            (*root)=(*root)->Left;
-            delete p;
-        }else{
-            Tnode p =(*root)->Left;
-            while(p->Right!=NULL){
-                p = p->Right;
-            }
-            (*root)->data = p->data;
-            Tnode temp = p;
-            p=p->Left;
-            cout<<"hello";
-            delete temp;
-        }
-    }
+void deleteNode(int x, Tnode *root) {
+    if ((*root) == NULL)
+        return;
+    if ((*root)->data > x) {
+        deleteNode(x, &(*root)->Left);
+    } else if ((*root)->data < x) {
+        deleteNode(x, &(*root)->Right);
+    } else { //data = x, root la node can xoa
+        if ((*root)->Left == NULL && (*root)->Right == NULL) {
+            (*root) = NULL;
 
+        } else{
+            if((*root)->Left==NULL ){
+                Tnode *p = root;
+                (*root)=(*root)->Right;
+                delete *p;
+            }else if((*root)->Right == NULL){
+                Tnode *p = root;
+                (*root)=(*root)->Left;
+                delete *p;
+            }else{
+                Tnode p = (*root)->Left;
+                Tnode *temp;
+                if (p->Right != NULL)
+                    while(p->Right!=NULL){
+                        temp = &(p->Right);
+                        p = p->Right;
+                    }
+                (*root)->data = p->data;
+                *temp = (*temp)->Left;
+                delete (temp);
+            }
+        }
+
+    }
 } 
 int Level(Tnode root){
     if(root==NULL){
@@ -190,7 +200,8 @@ int main()
     // cout << Search(root, 7)->data << endl;
     // cout << CountInternal(root)<<endl;
     // cout<<Level(root)<<endl;
-    deleteNode(&p);
+    Tnode *p = &root;
+    deleteNode(7, &root);
     cout<<"hello";
 
 }
